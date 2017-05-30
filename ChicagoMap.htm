@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Emma's Work in Chicago</title>
+
+		<style type="text/css">
+#container {
+    height: 500px; 
+    min-width: 310px; 
+    max-width: 100%; 
+}
+
+.highcharts-tooltip>span {
+    padding: 10px;
+    width: 500px!important;
+    white-space: normal !important;
+    width: 400px;
+}
+
+.loading {
+    margin-top: 10em;
+    text-align: center;
+    color: gray;
+}
+		</style>
+	</head>
+	<body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="./chicagomap_style.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
+<div id="container" style="min-width: 310px; max-width: 1000px"></div>
+
+
+
+		<script type="text/javascript">
+
+
+// Prepare random data
+var data = [
+    ['Chicago Lawn', 1, "Served as Health Leads Patient Advocate at the Chicago Family Health Center 63rd and Kedzie location for 3 years"],
+    ['Douglas', 1, "Planned Chicago Bound Day with visits to ____________"],
+    ['Englewood', 1, "Mapped commercial streets by foot with high school students during MAPSCorps summer 2013"],
+    ['Grand Boulevard', 1, "Planned Chicago Bound Day with visits to ____________"],
+    ['Grand Crossing', 1,"Mapped commercial streets by foot with high school students during MAPSCorps summer 2013"],
+    ['Humboldt Park', 1,"Planned Chicago Bound Day with visits to ____________"],
+    ['Hyde Park', 1,"Home for the past 7 years: University of Chicago, Chicago Bound, MAPSCorps, and NowPow homebase"],
+    ['Kenwood', 1,"Planned Chicago Bound Day with visits to ____________"],
+    ['Lake View', 1,"Planned Chicago Bound Day with visits to ____________"],
+    ['Little Village', 1,"Planned Chicago Bound Day with visits to ____________"],
+    ['Loop', 1,"Planned Chicago Bound Day with visits to ____________"],
+    ['North Lawndale', 1,"Wrote a grant for 30 organizations serving justice-involved youth to use NowPow to coordinate care across agencies"],
+    ['Pullman', 1,"Mapped commercial, residential, & industrial streets by foot & car during MAPSCorps summer 2013"],
+    ['Roseland', 1,"Mapped commercial, residential, & industrial streets by foot & car during MAPSCorps summer 2013"],
+    ['South Chicago', 1,"Served as Health Leads Patient Advocate at Chicago Family Health Center at 91st and Exchange location for 3 years"],
+    ['South Shore', 1,"Health Leads internship at La Rabida Children's Hospital in summer 2012; Mapped commercial streets by foot with high school students MAPSCorps summer 2013"],
+    ['Washington Park', 1,"Home base for MAPSCorps summer 2013: Washington Park Consortium in Coppin AME on 56 & Michigan Ave"],
+    ['West Pullman', 1,"Mapped commercial, residential, & industrial streets by foot & car during MAPSCorps summer 2013"],
+    ['Woodlawn', 1,"Planned Chicago Bound Day with visits to ____________"]
+];
+
+$.getJSON('https://rawgit.com/ThomasGRoberts/ChicagoMaps/master/ChicagoEdited.geojson', function (geojson) {
+
+    // Initiate the chart
+    Highcharts.setOptions({
+    chart: {
+        style: {
+            fontFamily: "'Raleway', sans-serif", lineHeight: '17px'
+        }
+    }
+});
+    Highcharts.mapChart('container', {
+
+    	chart: {
+            spacingTop: 10,
+            spacingRight: 600,
+            spacingBottom: 10,
+            spacingLeft: 10,
+            backgroundColor: '#451c2e'},
+        title: {
+            text: ''
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+        
+        tooltip: {
+            backgroundColor: '#451c2e',
+            borderWidth: 0,
+            shadow: false,
+            useHTML: true,
+            padding: 20,
+            headerFormat: "",
+            hideDelay: 8000,
+            style: {color: '#ffffff'},
+            pointFormat: 
+                '<span style="font-size:49px"><strong>{point.PRI_NEIGH}</strong><br><br>' +
+                '<span style="font-size:20px">{point.desc}</span>',
+            positioner: function () {
+                return { x: 400, y: 150 };
+
+            }
+        },
+
+        series: [{
+            data: data,
+            mapData: geojson,
+            joinBy: ['PRI_NEIGH', 0],
+            keys: ['PRI_NEIGH', 'value','desc'],
+            name: 'Random data',
+            showInLegend: false,
+            states: {
+                hover: {
+                    color: '#0d2c54'
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                format: '{point.properties.postal}'
+            }
+        }]
+    });
+});
+		</script>
+	</body>
+</html>
